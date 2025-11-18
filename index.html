@@ -3,18 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ตารางออมเงิน 30 วัน 🐻</title>
-<link rel="stylesheet" href="Untitled-1.css">
+<title>ตารางคำนวณการออมเงิน 30 Day 🐻</title>
 <link rel="icon" href="https://i.pinimg.com/736x/72/f3/09/72f3092fba5d73c8c6a10e0bc79c44cb.jpg">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
   body {
     font-family: "Prompt", sans-serif;
-    background: linear-gradient(180deg, #fffaf3 0%, #fff5e1 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
     text-align: center;
     padding: 40px 10px;
-    color: #333;
+    color: #94eb4d;
   }
   h1 { font-size: 32px; margin-bottom: 10px; color: #444; }
 
@@ -25,7 +24,7 @@
     background-color: #fffaf3; transition: 0.3s;
   }
   input[type="number"]:focus {
-    outline: none; border-color: #ffb16f; background-color:#fff5e1;
+    outline: none; border-color: #f0c090; background-color:#ffffff;
   }
   .total { font-weight: bold; font-size: 20px; margin: 20px 0; color: #7a4b19; }
   .sum-box { font-size: 26px; color: #d97400; }
@@ -47,9 +46,9 @@
     background: #fff;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow:0 3px 10px rgb(18, 233, 215); margin:0 !important;
   }
-  th,td { border: 1px solid #f0d8a8; width: calc(100%/7); height:60px; text-align:center; font-size:16px; }
+  th,td { border: 1px solid hsl(40, 71%, 80%); width: calc(100%/7); height:60px; text-align:center; font-size:16px; }
   th { background:#ffe7ba; color:#5a3a00; font-weight:bold;}
   td div { font-weight:bold; color:#aa7a36; }
 
@@ -58,18 +57,39 @@
     border-radius:10px; padding:8px 20px; margin:10px 5px;
     cursor:pointer; transition:.3s;
   }
-  .btn:hover{ background-color:#ffa63d; }
+  .btn:hover{ background-color:#ffce85; }
 
   #chartContainer{
     width:100%; background:#fffef8; padding:20px; border-radius:15px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.1); margin:0 !important;
+    box-shadow:0 3px 10px #00ffdd; margin:0 !important;
+  }
+
+  
+  #creditBox {
+    display: inline-block;
+    padding: 10px 20px;
+
+    
+    background: #ffffff;
+
+    border-radius: 55px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    margin-top: 30px;
+    text-align: left;
+    font-family: 'Prompt', sans-serif;
+  }
+
+  #creditBox p {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #000000;
   }
 </style>
 </head>
 
 <body>
-  <h1>ตารางออมเงิน 30 วัน 🐻</h1>
-  <div class="total">💰 ยอดรวมทั้งหมด <span id="sum" class="sum-box">0</span> บาท</div>
+  <h1>ตารางคำนวณการออมเงิน 30 Day 🐻</h1>
+  <div class="total"> ยอดรวมทั้งหมด <span id="sum" class="sum-box">0</span> THB</div>
 
   <div class="layout">
 
@@ -80,12 +100,20 @@
         </thead>
         <tbody id="savings-table"></tbody>
       </table>
-      <button class="btn" onclick="resetAll()">🧼 ล้างใหม่หมด</button>
+      <button class="btn" onclick="resetAll()"> Reset ↻</button>
     </div>
 
     <div class="rightBlock">
-      <div id="chartContainer">
-        <canvas id="chart"></canvas>
+      <div>
+        <div id="chartContainer">
+          <canvas id="chart"></canvas>
+        </div>
+
+        
+        <div id="creditBox">
+          <p><b>𝐵𝑦 :</b> (𝐵𝑙𝑢𝑒)</p>
+          <p><i>𝐚𝐧𝐝 :</i> (𝑃𝑎𝑖𝑛𝑡)</p>
+        </div>
       </div>
     </div>
 
@@ -145,13 +173,26 @@
     document.querySelectorAll('.save-input').forEach(i=>values.push(Number(i.value)||0));
     const ctx=document.getElementById('chart').getContext('2d');
     if(chart) chart.destroy();
-    chart=new Chart(ctx,{type:'bar',data:{labels:Array.from({length:30},(_,i)=>i+1),
-    datasets:[{label:'กราฟต่อวัน (บาท)',data:values,backgroundColor:'#ffb16f',borderRadius:5}]},
-    options:{scales:{y:{beginAtZero:true}}}});
+    chart=new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:Array.from({length:30},(_,i)=>i+1),
+        datasets:[{
+          label:'กราฟต่อวัน (THB)',
+          data:values,
+          backgroundColor:'#ffb16f',
+          borderRadius:5
+        }]
+      },
+      options:{scales:{y:{beginAtZero:true}}}
+    });
   }
 
   document.addEventListener('input',e=>{
-    if(e.target.classList.contains('save-input')){ updateSum(); saveData(); }
+    if(e.target.classList.contains('save-input')){
+      updateSum();
+      saveData();
+    }
   });
 
   loadData();
