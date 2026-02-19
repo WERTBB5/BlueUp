@@ -19,7 +19,7 @@ body {
 @media screen and (max-width: 520px) {
   html,
 body {
-    /* don't know how to set default units to rem in mojs :(( */
+   
   }
 }
 
